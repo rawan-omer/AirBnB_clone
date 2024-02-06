@@ -24,23 +24,27 @@ Clone the repository and navigate to the AirBnB directory:
 ```bash
 https://github.com/rawan-omer/AirBnB_clone.git
 cd AirBnB_clone
-
-Execute the console:
-
+```
+### Execute the console:
+```bash
 ./console.py
+```
 
-Testing
+## Testing
 All tests are located in the tests folder. Python unit tests are organized in files starting with test_.
 
 Execute tests in interactive mode:
+```bash
 python3 -m unittest discover tests
+```
 
-
-Usage
+## Usage
 Start the console in interactive mode:
+```bash
 (hbnb) help
+```
 
-Authors
+### Authors
 
-Samia Asim
-Rawan omer
+- [Samia Asim]
+- [Rawan omer]
