@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """BaseModel class"""
-from models import storage
 import uuid
 from datetime import datetime
 
@@ -8,6 +7,7 @@ from datetime import datetime
 class BaseModel:
     """BaseModel of the project"""
     def __init__(self, *args, **kwargs):
+        from models import storage
         if kwargs:
             for key, value in kwargs.items():
                 if key == 'created_at' or key == 'updated_at':
@@ -31,6 +31,7 @@ class BaseModel:
                 self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
+        from models import storage
         self.updated_at = datetime.now()
         storage.save()
 
