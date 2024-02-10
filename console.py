@@ -8,6 +8,7 @@ from models.base_model import BaseModel
 from models.user import User
 from models.state import State
 from models.review import Review
+from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -112,21 +113,20 @@ class HBNBCommand(cmd.Cmd):
             if len(arg_list) < 2:
                 print("** instance id missing **")
                 return
-
     def do_all(self, arg):
         """Prints all string representation of all instances"""
-        arg_list = shlex.split(arg)
-        if not arg or arg_list[0] not in ["BaseModel", "User", "State", "Review"]:
-            print("** class doesn't exist **")
+        if not arg:
+            print([str(obj) for obj in storage.all().values()])
             return
 
-        objs = []
-        objs.extend(BaseModel.load_from_file().values())
-        objs.extend(User.load_from_file().values())
-        objs.extend(State.load_from_file().values())
-        objs.extend(Review.load_from_file().values())
+        arg_list = arg.split()
+        class_name = arg_list[0]
 
-        print(objs)
+        if class_name in ["BaseModel", "User", "State", "Review"]:
+            print([str(obj) for key, obj in storage.all().items() if key.split('.')[0] == class_name])
+        else:
+            print("** class doesn't exist **")
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
