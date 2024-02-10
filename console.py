@@ -22,7 +22,7 @@ class HBNBCommand(cmd.Cmd):
         """EOF command to exit the program"""
         print("")  # Print a new line before exiting
         return True
-    
+
     def do_help(self, arg):
         """Get help on commands"""
         if arg:
