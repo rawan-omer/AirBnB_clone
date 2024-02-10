@@ -22,6 +22,18 @@ class HBNBCommand(cmd.Cmd):
         """EOF command to exit the program"""
         print("")  # Print a new line before exiting
         return True
+    
+    def do_help(self, arg):
+        """Get help on commands"""
+        if arg:
+            doc = getattr(self, 'do_' + arg).__doc__
+            if doc:
+                print(doc)
+            else:
+                print("No help available for '{}'".format(arg))
+        else:
+            print("Documented commands (type help <topic>):")
+            cmd.Cmd.do_help(self, arg)
 
     def do_create(self, arg):
         """Creates a new instance of BaseModel"""
