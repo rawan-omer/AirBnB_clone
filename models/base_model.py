@@ -2,7 +2,7 @@
 """BaseModel class"""
 import uuid
 from datetime import datetime
-
+import json
 
 class BaseModel:
     """BaseModel of the project"""
@@ -41,3 +41,12 @@ class BaseModel:
         obj_dict['created_at'] = self.created_at.isoformat()
         obj_dict['updated_at'] = self.updated_at.isoformat()
         return obj_dict
+
+    @staticmethod
+    def load_from_file():
+        """Load instances from JSON file"""
+        try:
+            with open("file.json", "r") as file:
+                return json.load(file)
+        except FileNotFoundError:
+            return {}

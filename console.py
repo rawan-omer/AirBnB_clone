@@ -51,15 +51,26 @@ class HBNBCommand(cmd.Cmd):
         arg_list = shlex.split(arg)
         class_name = arg_list[0]
 
-        try:
-            obj_id = arg_list[1]
-            obj = BaseModel.load_from_file().get(class_name + "." + obj_id)
-            if obj:
-                print(obj)
-            else:
-                print("** no instance found **")
-        except NameError:
+        if class_name not in ["BaseModel", "User", "State", "Review"]:
             print("** class doesn't exist **")
+            return
+
+        if len(arg_list) < 2:
+            print("** instance id missing **")
+            return
+
+        obj_id = arg_list[1]
+        objs = BaseModel.load_from_file()
+        objs.update(User.load_from_file())
+        objs.update(State.load_from_file())
+        objs.update(Review.load_from_file())
+
+        obj = objs.get(class_name + "." + obj_id)
+        if obj:
+            print(obj)
+        else:
+            print("** no instance found **")
+
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class name and id"""
@@ -102,6 +113,20 @@ class HBNBCommand(cmd.Cmd):
                 print("** instance id missing **")
                 return
 
+    def do_all(self, arg):
+        """Prints all string representation of all instances"""
+        arg_list = shlex.split(arg)
+        if not arg or arg_list[0] not in ["BaseModel", "User", "State", "Review"]:
+            print("** class doesn't exist **")
+            return
+
+        objs = []
+        objs.extend(BaseModel.load_from_file().values())
+        objs.extend(User.load_from_file().values())
+        objs.extend(State.load_from_file().values())
+        objs.extend(Review.load_from_file().values())
+
+        print(objs)
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
