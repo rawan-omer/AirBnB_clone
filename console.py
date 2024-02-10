@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""hbnb command definition"""
 import cmd
 import json
 import shlex
@@ -7,7 +8,6 @@ from models.base_model import BaseModel
 from models.user import User
 from models.state import State
 from models.review import Review
-"""hbnb command"""
 
 
 class HBNBCommand(cmd.Cmd):
