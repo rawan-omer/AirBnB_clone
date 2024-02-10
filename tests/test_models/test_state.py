@@ -3,6 +3,7 @@
 import unittest
 from models.state import State
 
+
 class TestState(unittest.TestCase):
     """State class"""
 
@@ -22,6 +23,7 @@ class TestState(unittest.TestCase):
         state.name = "rawan"
 
         self.assertEqual(state.name, "rawan")
+
 
 if __name__ == "__main__":
     unittest.main()

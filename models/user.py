@@ -2,6 +2,7 @@
 """new class that define more attribuets"""
 from models.base_model import BaseModel
 
+
 class User(BaseModel):
     """OUR User CLASS"""
     def __init__(self, *args, **kwargs):

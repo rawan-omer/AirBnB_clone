@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Review class for TESTING review file"""
 
+
 import unittest
 from models.review import Review
 
@@ -30,6 +31,7 @@ class TestReview(unittest.TestCase):
         self.assertEqual(review.place_id, "52345")
         self.assertEqual(review.user_id, "57890")
         self.assertEqual(review.text, "our test review.")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -2,6 +2,7 @@
 """New class definition"""
 from models.base_model import BaseModel
 
+
 class State(BaseModel):
     """State CLASS """
     def __init__(self, *args, **kwargs):

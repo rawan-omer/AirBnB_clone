@@ -9,6 +9,7 @@ from models.state import State
 from models.review import Review
 """hbnb command"""
 
+
 class HBNBCommand(cmd.Cmd):
     """HBNBCommand class"""
     prompt = "(hbnb) "

@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """User class's definition"""
 
+
 import unittest
 from models.user import User
 
@@ -33,6 +34,7 @@ class TestUser(unittest.TestCase):
         self.assertEqual(user.password, "my_password123")
         self.assertEqual(user.first_name, "rawan")
         self.assertEqual(user.last_name, "omer")
+
 
 if __name__ == "__main__":
     unittest.main()
