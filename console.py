@@ -4,6 +4,9 @@ import json
 import shlex
 import sys
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.review import Review
 """hbnb command"""
 
 class HBNBCommand(cmd.Cmd):
@@ -61,23 +64,38 @@ class HBNBCommand(cmd.Cmd):
         arg_list = shlex.split(arg)
         class_name = arg_list[0]
 
-         if len(arg_list) < 2:
-            print("** instance id missing **")
+        if class_name in ["BaseModel", "User", "State", "Review"]:
+            if len(arg_list) < 2:
+                print("** instance id missing **")
+                return
+
+            obj_id = arg_list[1]
+            objs = BaseModel.load_from_file()
+            objs.update(User.load_from_file())
+            objs.update(State.load_from_file())
+            objs.update(Review.load_from_file())
+
+            try:
+                del objs[class_name + "." + obj_id]
+                BaseModel.save_to_file(objs)
+            except KeyError:
+                print("** no instance found **")
+        else:
+            print("** class doesn't exist **")
+
+    def do_update(self, arg):
+        """Updates an instance based on the class name and id"""
+        if not arg:
+            print("** class name missing **")
             return
 
-         try:
-            obj_id = arg_list[1]
-            obj = BaseModel.load_from_file().get(class_name + "." + obj_id)
-            if obj:
-                del BaseModel.load_from_file()[class_name + "." + obj_id]
-                BaseModel.save_to_file()
-            else:
-                print("** no instance found **")
-         except NameError:
-                print("** class doesn't exist **")
+        arg_list = shlex.split(arg)
+        class_name = arg_list[0]
 
-
-
+        if class_name in ["BaseModel", "User", "State", "Review"]:
+            if len(arg_list) < 2:
+                print("** instance id missing **")
+                return
 
 
 if __name__ == '__main__':
