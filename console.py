@@ -33,16 +33,15 @@ class HBNBCommand(cmd.Cmd):
         if not arg:
             print("** class name missing **")
             return
-        arg_list = shlex.split(arg)
-        class_name = arg_list[0]
-
         try:
+            class_name = arg.split()[0]
             obj = eval(class_name)()
-            obj.save()
+            storage.new(obj)
+            storage.save()
             print(obj.id)
         except NameError:
             print("** class doesn't exist **")
-
+    
     def do_show(self, arg):
         """Prints the string representation of an instance"""
         if not arg:
@@ -113,6 +112,7 @@ class HBNBCommand(cmd.Cmd):
             if len(arg_list) < 2:
                 print("** instance id missing **")
                 return
+
     def do_all(self, arg):
         """Prints all string representation of all instances"""
         if not arg:
