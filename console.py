@@ -43,19 +43,6 @@ class HBNBCommand(cmd.Cmd):
         except NameError:
             print("** class doesn't exist **")
 
-    def load_instances(self, class_name):
-        """Load instances of the specified class from storage"""
-        if class_name == "BaseModel":
-            return BaseModel.load_from_file()
-        elif class_name == "User":
-            return User.load_from_file()
-        elif class_name == "State":
-            return State.load_from_file()
-        elif class_name == "Review":
-            return Review.load_from_file()
-        else:
-            return {}
-
     def do_show(self, arg):
         """Prints the string representation of an instance"""
         if not arg:
@@ -76,13 +63,10 @@ class HBNBCommand(cmd.Cmd):
         if not obj_id:
             print("** instance id missing **")
             return
-
-        objs = load_instances(class_name)
-        obj = objs.get(obj_id)
-
-        if obj:
+        try:
+            obj = storage.all()[class_name + "." + obj_id]
             print(obj)
-        else:
+        except KeyError:
             print("** no instance found **")
 
     def do_destroy(self, arg):
