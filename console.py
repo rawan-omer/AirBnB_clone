@@ -78,25 +78,29 @@ class HBNBCommand(cmd.Cmd):
             return
         arg_list = shlex.split(arg)
         class_name = arg_list[0]
+        obj_id = arg_list[1] if len(arg_list) > 1 else None
 
-        if class_name in ["BaseModel", "User", "State", "Review"]:
-            if len(arg_list) < 2:
-                print("** instance id missing **")
-                return
-
-            obj_id = arg_list[1]
-            objs = BaseModel.load_from_file()
-            objs.update(User.load_from_file())
-            objs.update(State.load_from_file())
-            objs.update(Review.load_from_file())
-
-            try:
-                del objs[class_name + "." + obj_id]
-                BaseModel.save_to_file(objs)
-            except KeyError:
-                print("** no instance found **")
-        else:
+        if class_name not in models.__dict__:
             print("** class doesn't exist **")
+            return
+
+        if not obj_id:
+            print("** instance id missing **")
+            return
+
+        objs = storage.all()
+        key = "{}.{}".format(class_name, obj_id)
+
+        if key not in objs:
+            print("** no instance found **")
+            return
+
+        try:
+            del objs[key]
+            storage.save()
+            print("Instance deleted successfully.")
+        except Exception as e:
+            print("Error deleting instance:", e)
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id"""

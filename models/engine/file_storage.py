@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """FileStorage serializes instances to JSON and deserializes JSON """
 import json
+import models
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -38,7 +39,16 @@ class FileStorage:
                 data = json.load(file)
                 for key, obj_dict in data.items():
                     class_name, obj_id = key.split('.')
-                    class_obj = globals()[class_name]
+                    if class_name == 'BaseModel':
+                        class_obj = BaseModel
+                    elif class_name == 'User':
+                        class_obj = User
+                    elif class_name == 'State':
+                        class_obj = State
+                    else:
+                        print("Class '{}' not found.".format(class_name))
+                        continue
+
                     obj = class_obj(**obj_dict)
                     FileStorage.__objects[key] = obj
         except FileNotFoundError:
