@@ -5,6 +5,7 @@ from unittest.mock import patch
 from io import StringIO
 from console import HBNBCommand
 
+
 class TestConsole(unittest.TestCase):
     """TESTING console.py file"""
 
@@ -29,13 +30,16 @@ class TestConsole(unittest.TestCase):
         console.onecmd('create BaseModel')
         self.assertNotEqual(mock_stdout.getvalue(), '')
 
-
     @patch('sys.stdout', new_callable=StringIO)
     def test_invalid_command(self, mock_stdout):
         """TESTING invalid command"""
         console = HBNBCommand()
         console.onecmd('invalid_command')
-        self.assertIn("*** Unknown syntax: invalid_command", mock_stdout.getvalue())
+        self.assertIn(
+            "*** Unknown syntax: invalid_command",
+            mock_stdout.getvalue()
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
