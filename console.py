@@ -118,14 +118,45 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, arg):
         """Prints all string representation of all instances"""
-        if arg:
-            class_name = arg.split()[0]
-            if not hasattr(models, class_name):
-                print("** class doesn't exist **")
-                return
-            print([str(obj) for obj in storage.all().values() if type(obj).__name__ == class_name])
-        else:
-            print([str(obj) for obj in storage.all().values()])
+        arg_list = arg.split('.')
+        if len(arg_list) != 2:
+            print("*** Unknown syntax:", arg)
+            return
+        class_name = arg_list[0]
+        method = arg_list[1]
+        if method != "all()":
+            print("*** Unknown syntax:", arg)
+            return
+        try:
+            class_obj = getattr(models, class_name)
+            instances = class_obj.all()
+            print(instances)
+        except AttributeError:
+            print("** class doesn't have 'all()' method **")
+
+    def do_count(self, arg):
+        """Counts the number of instances of a class"""
+        if not arg:
+            print("** class name missing **")
+            return
+
+        arg_list = arg.split('.')
+        if len(arg_list) != 2:
+            print("*** Unknown syntax:", arg)
+            return
+
+        class_name = arg.split()[0]
+        method = arg_list[1]
+        if method != "count()":
+            print("*** Unknown syntax:", arg)
+            return
+
+        try:
+            class_obj = getattr(models, class_name)
+            count = class_obj.count()
+            print(count)
+        except AttributeError:
+            print("** class doesn't have 'count()' method **")
 
 
 if __name__ == '__main__':
