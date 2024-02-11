@@ -4,6 +4,7 @@ import uuid
 from datetime import datetime
 import json
 
+
 class BaseModel:
     """BaseModel of the project"""
     def __init__(self, *args, **kwargs):
