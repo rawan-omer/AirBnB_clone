@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """hbnb command definition"""
 import cmd
-import models
 import json
 import shlex
 import sys
@@ -34,14 +33,28 @@ class HBNBCommand(cmd.Cmd):
         if not arg:
             print("** class name missing **")
             return
+        arg_list = shlex.split(arg)
+        class_name = arg_list[0]
+
         try:
-            class_name = arg.split()[0]
             obj = eval(class_name)()
-            storage.new(obj)
-            storage.save()
+            obj.save()
             print(obj.id)
         except NameError:
             print("** class doesn't exist **")
+
+    def load_instances(self, class_name):
+        """Load instances of the specified class from storage"""
+        if class_name == "BaseModel":
+            return BaseModel.load_from_file()
+        elif class_name == "User":
+            return User.load_from_file()
+        elif class_name == "State":
+            return State.load_from_file()
+        elif class_name == "Review":
+            return Review.load_from_file()
+        else:
+            return {}
 
     def do_show(self, arg):
         """Prints the string representation of an instance"""
@@ -50,23 +63,23 @@ class HBNBCommand(cmd.Cmd):
             return
 
         arg_list = shlex.split(arg)
-        class_name = arg_list[0]
+        if len(arg_list) != 2:
+            print("** invalid syntax: show <class name> <instance id> **")
+            return
+
+        class_name, obj_id = arg_list
 
         if class_name not in ["BaseModel", "User", "State", "Review"]:
             print("** class doesn't exist **")
             return
 
-        if len(arg_list) < 2:
+        if not obj_id:
             print("** instance id missing **")
             return
 
-        obj_id = arg_list[1]
-        objs = BaseModel.load_from_file()
-        objs.update(User.load_from_file())
-        objs.update(State.load_from_file())
-        objs.update(Review.load_from_file())
+        objs = load_instances(class_name)
+        obj = objs.get(obj_id)
 
-        obj = objs.get(class_name + "." + obj_id)
         if obj:
             print(obj)
         else:
@@ -74,65 +87,59 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class name and id"""
-        args = shlex.split(arg)
-        if not args:
+        if not arg:
             print("** class name missing **")
             return
-        if len(args) < 2:
-            print("** instance id missing **")
-            return
-        class_name = args[0]
-        instance_id = args[1]
-        obj = storage.get(class_name, instance_id)
-        if obj:
-            obj.delete()
-            storage.save()
+        arg_list = shlex.split(arg)
+        class_name = arg_list[0]
+
+        if class_name in ["BaseModel", "User", "State", "Review"]:
+            if len(arg_list) < 2:
+                print("** instance id missing **")
+                return
+
+            obj_id = arg_list[1]
+            objs = BaseModel.load_from_file()
+            objs.update(User.load_from_file())
+            objs.update(State.load_from_file())
+            objs.update(Review.load_from_file())
+
+            try:
+                del objs[class_name + "." + obj_id]
+                BaseModel.save_to_file(objs)
+            except KeyError:
+                print("** no instance found **")
         else:
-            print("** no instance found **")
+            print("** class doesn't exist **")
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id"""
-        args = shlex.split(arg)
-        if not args:
+        if not arg:
             print("** class name missing **")
             return
-        if len(args) < 2:
-            print("** instance id missing **")
-            return
-        class_name = args[0]
-        instance_id = args[1]
-        obj = storage.get(class_name, instance_id)
-        if not obj:
-            print("** no instance found **")
-            return
-        if len(args) < 3:
-            print("** attribute name missing **")
-            return
-        if len(args) < 4:
-            print("** value missing **")
-            return
-        attr_name = args[2]
-        attr_value = args[3]
-        setattr(obj, attr_name, attr_value)
-        obj.save()
+
+        arg_list = shlex.split(arg)
+        class_name = arg_list[0]
+
+        if class_name in ["BaseModel", "User", "State", "Review"]:
+            if len(arg_list) < 2:
+                print("** instance id missing **")
+                return
 
     def do_all(self, arg):
         """Prints all string representation of all instances"""
-        arg_list = arg.split('.')
-        if len(arg_list) != 2:
-            print("*** Unknown syntax:", arg)
+        if not arg:
+            print([str(obj) for obj in storage.all().values()])
             return
+
+        arg_list = arg.split()
         class_name = arg_list[0]
-        method = arg_list[1]
-        if method != "all()":
-            print("*** Unknown syntax:", arg)
-            return
-        try:
-            class_obj = getattr(models, class_name)
-            instances = class_obj.all()
-            print(instances)
-        except AttributeError:
-            print("** class doesn't have 'all()' method **")
+
+        if class_name in ["BaseModel", "User", "State", "Review"]:
+            print([str(obj) for key, obj in storage.all().items()
+                  if key.split('.')[0] == class_name])
+        else:
+            print("** class doesn't exist **")
 
     def do_count(self, arg):
         """Counts the number of instances of a class"""
@@ -140,23 +147,13 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        arg_list = arg.split('.')
-        if len(arg_list) != 2:
-            print("*** Unknown syntax:", arg)
-            return
-
         class_name = arg.split()[0]
-        method = arg_list[1]
-        if method != "count()":
-            print("*** Unknown syntax:", arg)
-            return
+        i = 0
+        for obj in storage.all().values():
+            if class_name == obj.__class__.__name__:
+                i += 1
 
-        try:
-            class_obj = getattr(models, class_name)
-            count = class_obj.count()
-            print(count)
-        except AttributeError:
-            print("** class doesn't have 'count()' method **")
+        print(i)
 
 
 if __name__ == '__main__':
