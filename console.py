@@ -41,7 +41,7 @@ class HBNBCommand(cmd.Cmd):
             print(obj.id)
         except NameError:
             print("** class doesn't exist **")
-    
+
     def do_show(self, arg):
         """Prints the string representation of an instance"""
         if not arg:
@@ -70,7 +70,6 @@ class HBNBCommand(cmd.Cmd):
             print(obj)
         else:
             print("** no instance found **")
-
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class name and id"""
@@ -123,7 +122,8 @@ class HBNBCommand(cmd.Cmd):
         class_name = arg_list[0]
 
         if class_name in ["BaseModel", "User", "State", "Review"]:
-            print([str(obj) for key, obj in storage.all().items() if key.split('.')[0] == class_name])
+            print([str(obj) for key, obj in storage.all().items()
+                   if key.split('.')[0] == class_name])
         else:
             print("** class doesn't exist **")
 
