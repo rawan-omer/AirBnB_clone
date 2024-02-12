@@ -46,4 +46,4 @@ class FileStorage:
                     else:
                         raise ValueError(f"Class '{class_name}' not found.")
         except FileNotFoundError:
-            print(f"Warning: File '{FileStorage.__file_path}' not found. No data loaded.")
+            pass
