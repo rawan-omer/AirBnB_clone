@@ -5,10 +5,11 @@ from datetime import datetime
 import json
 import models
 
+
 class BaseModel:
     """BaseModel of the project"""
     def __init__(self, *args, **kwargs):
-        """__init__ method of class"""
+        """Initialization method of the class"""
         if kwargs:
             for key, value in kwargs.items():
                 if key == 'created_at' or key == 'updated_at':
