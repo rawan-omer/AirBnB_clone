@@ -10,6 +10,7 @@ from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
 
+
 class FileStorage:
     """FileStorage CLASS attribuets"""
     __file_path = "file.json"
@@ -34,13 +35,17 @@ class FileStorage:
 
     def reload(self):
         """reload function's definition"""
-        with open(FileStorage.__file_path, 'r') as file:
-            data = json.load(file)
-            for key, obj_dict in data.items():
-                class_name, obj_id = key.split('.')
-                class_obj = globals().get(class_name)
-                if class_obj:
-                    obj = class_obj(**obj_dict)
-                    FileStorage.__objects[key] = obj
-                else:
-                    raise ValueError("Class '" + class_name + "' not found.")
+        try:
+            with open(FileStorage.__file_path, 'r') as file:
+                data = json.load(file)
+                for key, obj_dict in data.items():
+                    class_name, obj_id = key.split('.')
+                    class_obj = globals().get(class_name)
+                    if class_obj:
+                        obj = class_obj(**obj_dict)
+                        FileStorage.__objects[key] = obj
+                    else:
+                        raise ValueError(
+                                "Class '" + class_name + "' not found.")
+        except FileNotFoundError:
+            pass
