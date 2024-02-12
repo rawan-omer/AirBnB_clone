@@ -128,7 +128,8 @@ class HBNBCommand(cmd.Cmd):
             return
 
         class_name = arg.split()[0]
-        count = sum(1 for obj in storage.all().values() if isinstance(obj, eval(class_name)))
+        count = sum(1 for obj in storage.all().values() if isinstance(
+            obj, eval(class_name)))
         print(count)
 
 
