@@ -39,17 +39,11 @@ class FileStorage:
                 data = json.load(file)
                 for key, obj_dict in data.items():
                     class_name, obj_id = key.split('.')
-                    if class_name == 'BaseModel':
-                        class_obj = BaseModel
-                    elif class_name == 'User':
-                        class_obj = User
-                    elif class_name == 'State':
-                        class_obj = State
+                    class_obj = globals().get(class_name)
+                    if class_obj:
+                        obj = class_obj(**obj_dict)
+                        FileStorage.__objects[key] = obj
                     else:
-                        print("Class '{}' not found.".format(class_name))
-                        continue
-
-                    obj = class_obj(**obj_dict)
-                    FileStorage.__objects[key] = obj
+                        raise ValueError(f"Class '{class_name}' not found.")
         except FileNotFoundError:
             pass
