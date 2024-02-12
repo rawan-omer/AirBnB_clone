@@ -47,5 +47,5 @@ class FileStorage:
                     else:
                         raise ValueError(
                                 "Class '" + class_name + "' not found.")
-        except FileNotFoundError:
+        except (FileNotFoundError, json.JSONDecodeError):
             pass
