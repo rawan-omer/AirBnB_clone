@@ -43,6 +43,14 @@ class HBNBCommand(cmd.Cmd):
         except NameError:
             print("** class doesn't exist **")
 
+    def load_all_instances(self):
+        """Load all instances from storage"""
+        objs = BaseModel.load_from_file()
+        objs.update(User.load_from_file())
+        objs.update(State.load_from_file())
+        objs.update(Review.load_from_file())
+        return objs
+
     def do_show(self, arg):
         """Prints the string representation of an instance"""
         if not arg:
@@ -50,49 +58,58 @@ class HBNBCommand(cmd.Cmd):
             return
 
         arg_list = shlex.split(arg)
-        if len(arg_list) != 2:
-            print("** invalid syntax: show <class name> <instance id> **")
-            return
+        class_name = arg_list[0]
 
-        class_name, obj_id = arg_list
+        if len(arg_list) < 2:
+            print("** instance id missing  **")
+            return
 
         if class_name not in ["BaseModel", "User", "State", "Review"]:
             print("** class doesn't exist **")
             return
 
-        if not obj_id:
-            print("** instance id missing **")
-            return
-        try:
-            obj = storage.all()[class_name + "." + obj_id]
+        obj_id = arg_list[1]
+        objs = storage.all()
+
+        key = class_name + "." + obj_id
+        obj = objs.get(key)
+
+        if obj:
             print(obj)
-        except KeyError:
+        else:
             print("** no instance found **")
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class name and id"""
-        if not arg:
+        arg_list = shlex.split(arg)
+
+        if len(arg_list) == 0:
             print("** class name missing **")
             return
-        arg_list = shlex.split(arg)
+
         class_name = arg_list[0]
 
-        if class_name in ["BaseModel", "User", "State", "Review"]:
-            if len(arg_list) < 2:
-                print("** instance id missing **")
-                return
-
-            obj_id = arg_list[1]
-            objs = {**BaseModel.load_from_file(), **User.load_from_file(),
-                    **State.load_from_file(), **Review.load_from_file()}
-
-            try:
-                del objs[f"{class_name}.{obj_id}"]
-                BaseModel.save_to_file(objs)
-            except KeyError:
-                print("** no instance found **")
-        else:
+        if class_name not in ["BaseModel", "User", "State", "Review"]:
             print("** class doesn't exist **")
+            return
+
+        if len(arg_list) == 1:
+            print("** instance id missing **")
+            return
+
+        obj_id = arg_list[1]
+        objs = storage.all()
+        key = "{}.{}".format(class_name, obj_id)
+
+        if key not in objs:
+            print("** no instance found **")
+            return
+
+        try:
+            del objs[key]
+            storage.save()
+        except Exception as e:
+            print("Error deleting instance:", e)
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id"""

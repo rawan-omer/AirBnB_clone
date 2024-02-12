@@ -43,4 +43,4 @@ class FileStorage:
                     obj = class_obj(**obj_dict)
                     FileStorage.__objects[key] = obj
                 else:
-                    raise ValueError(f"Class '{class_name}' not found.")
+                    raise ValueError("Class '" + class_name + "' not found.")
