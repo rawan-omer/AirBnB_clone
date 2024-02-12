@@ -120,7 +120,8 @@ class HBNBCommand(cmd.Cmd):
         if class_name not in storage.classes():
             print(" class doesn't exist ")
             return
-        print([str(obj) for key, obj in storage.all().items() if key.split('.')[0] == class_name])
+        print([str(obj) for key, obj in storage.all().items()
+               if key.split('.')[0] == class_name])
 
 
 if name == 'main':
