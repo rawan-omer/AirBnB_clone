@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 """hbnb command definition"""
 import cmd
-import json
 import shlex
-import sys
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -83,13 +81,11 @@ class HBNBCommand(cmd.Cmd):
                 return
 
             obj_id = arg_list[1]
-            objs = BaseModel.load_from_file()
-            objs.update(User.load_from_file())
-            objs.update(State.load_from_file())
-            objs.update(Review.load_from_file())
+            objs = {**BaseModel.load_from_file(), **User.load_from_file(),
+                    **State.load_from_file(), **Review.load_from_file()}
 
             try:
-                del objs[class_name + "." + obj_id]
+                del objs[f"{class_name}.{obj_id}"]
                 BaseModel.save_to_file(objs)
             except KeyError:
                 print("** no instance found **")
@@ -132,12 +128,8 @@ class HBNBCommand(cmd.Cmd):
             return
 
         class_name = arg.split()[0]
-        i = 0
-        for obj in storage.all().values():
-            if class_name == obj.__class__.__name__:
-                i += 1
-
-        print(i)
+        count = sum(1 for obj in storage.all().values() if isinstance(obj, eval(class_name)))
+        print(count)
 
 
 if __name__ == '__main__':
