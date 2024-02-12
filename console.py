@@ -2,6 +2,8 @@
 """hbnb command definition"""
 import cmd
 import shlex
+import json
+import sys
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
