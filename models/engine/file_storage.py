@@ -49,3 +49,7 @@ class FileStorage:
                                 "Class '" + class_name + "' not found.")
         except (FileNotFoundError, json.decoder.JSONDecodeError):
             pass
+
+    def classes(self):
+        """Return a list of classes stored in __objects"""
+        return [obj.__class__.__name__ for obj in FileStorage.__objects.values()]

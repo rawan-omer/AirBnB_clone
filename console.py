@@ -124,5 +124,5 @@ class HBNBCommand(cmd.Cmd):
                if key.split('.')[0] == class_name])
 
 
-if name == 'main':
+if __name__ == '__main__':
     HBNBCommand().cmdloop()
