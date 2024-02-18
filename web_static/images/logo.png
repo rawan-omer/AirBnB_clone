@@ -1,8 +1,1 @@
-.logo {
-    background-image: url('https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/268/logo.png');
-    background-size: contain;
-    background-position: left center;
-    height: 40px;
-    width: auto;
-    margin-left: 20px;
-}
+<img src="https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/268/logo.png" alt="logo">
