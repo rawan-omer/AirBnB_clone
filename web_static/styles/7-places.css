@@ -1,11 +1,15 @@
 .places{
 	border: 0;
 	display: flex;
-	flex-direction: column;
+	flex-flow: row wrap;
 	padding-left: 30px;
+	justify-content: space-evenly;
 }
 .places h1{
 	font-size: 30px;
+	height: 30px;
+	width: 100%;
+	padding-left: 3%;
 }
 .places_title{
 	padding-top: 30px;
