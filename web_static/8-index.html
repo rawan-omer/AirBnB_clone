@@ -1,26 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8">
-		<title>HTML and CSS</title>
-		<link rel="stylesheet" type="text/css" href="styles/4-common.css">
-		<link rel="stylesheet" type="text/css" href="styles/3-header.css">
-		<link rel="stylesheet" type="text/css" href="styles/3-footer.css">
-		<link rel="stylesheet" type="text/css" href="styles/6-filters.css">
-		<link rel="stylesheet" type="text/css" href="styles/8-places.css">
-		<link rel="shortcut icon" href="images/HBTN_browser_icon.png"/>
-		<link rel="icon" href="images/HBTN_browser_icon.png"/>
+		<meta charset="UTF-8" />
+		<title>AirBnB Clone</title>
+		<link rel="stylesheet" type="text/css" href="styles/4-common.css" />
+		<link rel="stylesheet" type="text/css" href="styles/3-header.css" />
+		<link rel="stylesheet" type="text/css" href="styles/3-footer.css" />
+		<link rel="stylesheet" type="text/css" href="styles/6-filters.css" />
+		<link rel="stylesheet" type="text/css" href="styles/8-places.css" />
+		<link rel="shortcut icon" href="images/icon.png" type="image/png" />
 	</head>
 	<body>
-		<header></header>
+		<header>
+			<div class="logo"></div>
+		</header>
 		<div class="container">
 			<section class="filters">
-				<select>
-					<option value="location">Location</option>
-					<option value="price">Price</option>
-					<option value="amenities">Amenities</option>
-				</select>
-				<button>Search</button>
+				<button type="button">Search</button>
+				<div class="locations">
+					<h3>States</h3>
+					<h4>California, Arizona...</h4>
+					<ul class="popover">
+						<li>
+							<h2>State 1</h2>
+							<ul>
+								<li>City 1</li>
+								<li>City 2</li>
+								<li>City 3</li>
+							</ul>
+						</li>
+						<li>
+							<h2>State 2</h2>
+							<ul>
+								<li>City 4</li>
+								<li>City 5</li>
+								<li>City 6</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="amenities">
+					<h3>Amenities</h3>
+					<h4>Internet, Kitchen...</h4>
+					<ul class="popover">
+						<li>Fake Amenity 1</li>
+						<li>Fake Amenity 2</li>
+						<li>Fake Amenity 3</li>
+					</ul>
+				</div>
 			</section>
 			<section class="places">
 				<h1>Places</h1>
@@ -28,23 +55,57 @@
 					<h2>Place Name 1</h2>
 					<div class="price_by_night">$100</div>
 					<div class="information">
-						<div class="max_guest">Guests: 4</div>
-						<div class="number_rooms">Bedrooms: 2</div>
-						<div class="number_bathrooms">Bathrooms: 2</div>
+						<div class="max_guest">
+							<div class="guest_icon"></div>
+							<div class="guest_number">
+								<h2>4 Guests</h2>
+							</div>
+						</div>
+						<div class="number_rooms">
+							<div class="rooms_icon"></div>
+							<div class="rooms_number">
+								<h2>2 Bedroom</h2>
+							</div>
+						</div>
+						<div class="number_bathrooms">
+							<div class="bathrooms_icon"></div>
+							<div class="bathrooms_number">
+								<h2>1 Bathroom</h2>
+							</div>
+						</div>
 					</div>
 					<div class="user"><strong>Owner:</strong> John Doe</div>
-					<div class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+					<div class="description">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+					</div>
 				</article>
 				<article>
 					<h2>Place Name 2</h2>
 					<div class="price_by_night">$120</div>
 					<div class="information">
-						<div class="max_guest">Guests: 6</div>
-						<div class="number_rooms">Bedrooms: 3</div>
-						<div class="number_bathrooms">Bathrooms: 2</div>
+						<div class="max_guest">
+							<div class="guest_icon"></div>
+							<div class="guest_number">
+								<h2>6 Guests</h2>
+							</div>
+						</div>
+						<div class="number_rooms">
+							<div class="rooms_icon"></div>
+							<div class="rooms_number">
+								<h2>3 Bedroom</h2>
+							</div>
+						</div>
+						<div class="number_bathrooms">
+							<div class="bathrooms_icon"></div>
+							<div class="bathrooms_number">
+								<h2>2 Bathroom</h2>
+							</div>
+						</div>
 					</div>
 					<div class="user"><strong>Owner:</strong> Jane Smith</div>
-					<div class="description">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+					<div class="description">
+						Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+					</div>
 				</article>
 			</section>
 		</div>
