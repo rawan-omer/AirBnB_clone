@@ -1,3 +1,56 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>HTML and CSS</title>
+		<link rel="stylesheet" type="text/css" href="styles/4-common.css">
+		<link rel="stylesheet" type="text/css" href="styles/3-header.css">
+		<link rel="stylesheet" type="text/css" href="styles/3-footer.css">
+		<link rel="stylesheet" type="text/css" href="styles/6-filters.css">
+		<link rel="stylesheet" type="text/css" href="styles/8-places.css">
+		<link rel="shortcut icon" href="images/HBTN_browser_icon.png"/>
+		<link rel="icon" href="images/HBTN_browser_icon.png"/>
+	</head>
+	<body>
+		<header></header>
+		<div class="container">
+			<section class="filters">
+				<select>
+					<option value="location">Location</option>
+					<option value="price">Price</option>
+					<option value="amenities">Amenities</option>
+				</select>
+				<button>Search</button>
+			</section>
+			<section class="places">
+				<h1>Places</h1>
+				<article>
+					<h2>Place Name 1</h2>
+					<div class="price_by_night">$100</div>
+					<div class="information">
+						<div class="max_guest">Guests: 4</div>
+						<div class="number_rooms">Bedrooms: 2</div>
+						<div class="number_bathrooms">Bathrooms: 2</div>
+					</div>
+					<div class="user"><strong>Owner:</strong> John Doe</div>
+					<div class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+				</article>
+				<article>
+					<h2>Place Name 2</h2>
+					<div class="price_by_night">$120</div>
+					<div class="information">
+						<div class="max_guest">Guests: 6</div>
+						<div class="number_rooms">Bedrooms: 3</div>
+						<div class="number_bathrooms">Bathrooms: 2</div>
+					</div>
+					<div class="user"><strong>Owner:</strong> Jane Smith</div>
+					<div class="description">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+				</article>
+			</section>
+		</div>
+		<footer>
+			<p>Best School</p>
+		</footer>
+	</body>
+</html>
+
